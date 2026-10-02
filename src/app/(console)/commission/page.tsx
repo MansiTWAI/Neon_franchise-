@@ -111,7 +111,7 @@ export default async function CommissionPage() {
 
       <section className="mt-8">
         <h2 className="font-semibold text-gray-900">How commission is paid</h2>
-        <ol className="mt-3 grid gap-3 sm:grid-cols-4">
+        <ol className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-4">
           {STAGES.map(([stage, detail], i) => (
             <li key={stage} className="rounded-xl border border-gray-200 bg-white p-4">
               <span className="text-xs font-semibold text-gray-400 tabular-nums">{i + 1}</span>

@@ -3,7 +3,7 @@
 import { ApiError } from '@neon-adda/shared/web/client';
 import { useState } from 'react';
 import { api } from '@/lib/browser-api';
-import { formatDateTime, fromLocalInput, LEAD_STATUS, toLocalInput } from '@/lib/format';
+import { formatDateTime, formatPhone, fromLocalInput, LEAD_STATUS, toLocalInput } from '@/lib/format';
 
 export interface Lead {
   id: string;
@@ -38,7 +38,7 @@ export function LeadRow({ lead: initial }: { lead: Lead }) {
       <td className="px-4 py-3">
         <p className="font-medium text-gray-900">{lead.name}</p>
         <a href={`tel:${lead.phone}`} className="text-xs text-brand tabular-nums">
-          {lead.phone}
+          {formatPhone(lead.phone)}
         </a>
         {lead.pincode && <p className="text-xs text-gray-500">{lead.pincode}</p>}
       </td>

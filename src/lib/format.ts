@@ -77,3 +77,9 @@ export const SOURCE_LABEL: Record<string, string> = {
   ASSIGNED: 'Your territory',
   NONE: 'Unassigned',
 };
+
+/** +919812345678 → +91 98123 45678 */
+export function formatPhone(phone: string): string {
+  const digits = phone.replace(/^\+91/, '');
+  return /^\d{10}$/.test(digits) ? `+91 ${digits.slice(0, 5)} ${digits.slice(5)}` : phone;
+}

@@ -4,6 +4,7 @@ import { ApiError } from '@neon-adda/shared/web/client';
 import { HardHat } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { api } from '@/lib/browser-api';
+import { formatPhone } from '@/lib/format';
 import { EmptyState } from './empty-state';
 import { Badge, Card, Table } from './ui/display';
 import { Field, FormError, SubmitButton, TextInput } from './ui/form';
@@ -48,7 +49,7 @@ export function TechnicianManager({ initial }: { initial: Technician[] }) {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
       <div>
         {technicians.length === 0 ? (
           <EmptyState
@@ -61,7 +62,7 @@ export function TechnicianManager({ initial }: { initial: Technician[] }) {
             {technicians.map((t) => (
               <tr key={t.id} className={t.isActive ? '' : 'text-gray-400'}>
                 <td className="px-4 py-3 font-medium">{t.name}</td>
-                <td className="px-4 py-3 tabular-nums">{t.phone}</td>
+                <td className="px-4 py-3 whitespace-nowrap tabular-nums">{formatPhone(t.phone)}</td>
                 <td className="px-4 py-3 tabular-nums">{t.openJobs}</td>
                 <td className="px-4 py-3 tabular-nums">{t.completedJobs}</td>
                 <td className="px-4 py-3">

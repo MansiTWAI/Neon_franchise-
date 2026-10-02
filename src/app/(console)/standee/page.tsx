@@ -23,17 +23,17 @@ export default async function StandeePage() {
         <PrintButton />
       </PageHeader>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,420px)_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
         <section
           id="standee"
-          className="rounded-3xl bg-gray-950 p-8 text-center text-white print:rounded-none print:p-12"
+          className="rounded-3xl bg-gray-950 p-6 text-center text-white sm:p-8 print:rounded-none print:p-12"
         >
           <p className="font-display text-2xl font-bold tracking-wide">
             <span className="text-brand">NEON</span> ADDA
           </p>
           <p className="mt-2 text-lg">Design your own neon sign</p>
           <div
-            className="mx-auto mt-6 w-64 rounded-2xl bg-white p-3 [&_svg]:h-auto [&_svg]:w-full"
+            className="mx-auto mt-6 w-full max-w-64 rounded-2xl bg-white p-3 [&_svg]:h-auto [&_svg]:w-full"
             dangerouslySetInnerHTML={{ __html: qr }}
           />
           <p className="mt-6 text-sm text-gray-300">

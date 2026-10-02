@@ -5,7 +5,14 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { InstallationForm, type InstallationView } from '@/components/installation-form';
 import { Badge, Card } from '@/components/ui/display';
-import { COMMISSION_STATUS, formatDateTime, JOB_STATUS, ORDER_STATUS, SOURCE_LABEL } from '@/lib/format';
+import {
+  COMMISSION_STATUS,
+  formatDateTime,
+  formatPhone,
+  JOB_STATUS,
+  ORDER_STATUS,
+  SOURCE_LABEL,
+} from '@/lib/format';
 import { serverApi } from '@/lib/server-api';
 
 interface PartnerOrder {
@@ -78,7 +85,7 @@ export default async function PartnerOrderPage({ params }: { params: Promise<{ o
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-6">
           <Card title={order.items.length === 1 ? 'Sign' : `Signs (${order.items.length})`}>
             <ul className="-my-3 divide-y divide-gray-100">
@@ -185,7 +192,7 @@ export default async function PartnerOrderPage({ params }: { params: Promise<{ o
           <Card title="Customer">
             <dl className="space-y-1.5 text-sm">
               <dd className="font-medium text-gray-900">{order.customer.name}</dd>
-              <dd className="text-gray-600">{order.customer.phone}</dd>
+              <dd className="text-gray-600">{formatPhone(order.customer.phone)}</dd>
               <dd className="text-gray-600">
                 {order.customer.address ?? `${order.customer.city} ${order.customer.pincode}`}
               </dd>

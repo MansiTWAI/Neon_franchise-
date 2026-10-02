@@ -59,7 +59,7 @@ export default async function OverviewPage() {
         )}
       </PageHeader>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {tiles.map(({ icon: Icon, label, value, href }) => (
           <Link
             key={label}
@@ -74,7 +74,7 @@ export default async function OverviewPage() {
         ))}
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <Card
           title="Today’s installations"
           action={

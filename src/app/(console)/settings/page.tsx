@@ -44,7 +44,7 @@ export default async function SettingsPage() {
         title="Settings"
         description="Your details as Neon Adda has them. To change anything, contact your Neon Adda manager."
       />
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card title="Business">
           {rows([
             ['Name', profile.name],
