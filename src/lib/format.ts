@@ -59,9 +59,20 @@ export const COMMISSION_STATUS: Record<string, { label: string; tone: Tone }> = 
   PENDING: { label: 'Pending', tone: 'amber' },
   ON_HOLD: { label: 'On hold', tone: 'amber' },
   ELIGIBLE: { label: 'Eligible', tone: 'blue' },
+  CLAIMED: { label: 'Claimed', tone: 'violet' },
+  DISPUTED: { label: 'Questioned', tone: 'red' },
   APPROVED: { label: 'Approved', tone: 'blue' },
   PAID: { label: 'Paid', tone: 'green' },
   REVERSED: { label: 'Reversed', tone: 'gray' },
+};
+
+export const CLAIM_STATUS: Record<string, { label: string; tone: Tone }> = {
+  DRAFT: { label: 'Draft', tone: 'gray' },
+  SUBMITTED: { label: 'With accounts', tone: 'blue' },
+  DISPUTED: { label: 'Needs more', tone: 'amber' },
+  APPROVED: { label: 'Approved', tone: 'green' },
+  REJECTED: { label: 'Rejected', tone: 'red' },
+  PAID: { label: 'Paid', tone: 'green' },
 };
 
 export const LEAD_STATUS: Record<string, { label: string; tone: Tone }> = {

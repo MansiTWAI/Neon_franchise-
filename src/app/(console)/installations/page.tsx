@@ -37,7 +37,7 @@ export default async function InstallationsPage() {
     <>
       <PageHeader
         title="Installations"
-        description="Book each visit from its order. Technicians update the status and add photos from their app."
+        description="Neon Adda books each visit and assigns the technician. Technicians update the status and add photos from their app."
       />
       {visits.length === 0 ? (
         <EmptyState

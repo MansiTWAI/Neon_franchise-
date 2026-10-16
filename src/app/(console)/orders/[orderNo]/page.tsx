@@ -1,9 +1,9 @@
+import { SignPreview, type Lettering } from '@/components/sign-preview';
 import { formatINR, type OrderStatus } from '@neon-adda/shared';
 import { ApiError } from '@neon-adda/shared/web/client';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { InstallationForm, type InstallationView } from '@/components/installation-form';
 import { Badge, Card } from '@/components/ui/display';
 import {
   COMMISSION_STATUS,
@@ -31,18 +31,20 @@ interface PartnerOrder {
     qty: number;
     amountPaise: number;
     previewUrl: string | null;
+    lettering: Lettering | null;
   }[];
   totals: { totalPaise: number; paidPaise: number; duePaise: number };
   history: { status: OrderStatus; note: string | null; at: string }[];
-  installation:
-    | (InstallationView & {
-        technician: string | null;
-        completedAt: string | null;
-        failReason: string | null;
-        photos: { id: string; stage: string; url: string }[];
-      })
-    | null;
-  technicians: { id: string; name: string }[];
+  installation: {
+    status: string;
+    scheduledStart: string | null;
+    scheduledEnd: string | null;
+    notes: string | null;
+    technician: string | null;
+    completedAt: string | null;
+    failReason: string | null;
+    photos: { id: string; stage: string; url: string }[];
+  } | null;
   commission: { status: string; amountPaise: number }[];
 }
 
@@ -65,10 +67,6 @@ export default async function PartnerOrderPage({ params }: { params: Promise<{ o
   }
   const status = ORDER_STATUS[order.status];
   const job = order.installation;
-  const canSchedule =
-    order.installationRequired &&
-    !['PENDING_PAYMENT', 'CANCELLED', 'EXPIRED', 'COMPLETED', 'INSTALLED'].includes(order.status) &&
-    !(job && ['ON_THE_WAY', 'REACHED', 'WORK_STARTED'].includes(job.status));
 
   return (
     <>
@@ -91,16 +89,7 @@ export default async function PartnerOrderPage({ params }: { params: Promise<{ o
             <ul className="-my-3 divide-y divide-gray-100">
               {order.items.map((item) => (
                 <li key={item.id} className="flex gap-4 py-3">
-                  {item.previewUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={item.previewUrl}
-                      alt=""
-                      className="size-20 shrink-0 rounded-lg bg-gray-900 object-contain"
-                    />
-                  ) : (
-                    <span className="size-20 shrink-0 rounded-lg bg-gray-900" />
-                  )}
+                  <SignPreview previewUrl={item.previewUrl} lettering={item.lettering} className="size-20" />
                   <div className="flex-1 text-sm">
                     <p className="font-medium text-gray-900">{item.description}</p>
                     <p className="mt-1 text-gray-500">
@@ -132,29 +121,17 @@ export default async function PartnerOrderPage({ params }: { params: Promise<{ o
               )}
               {job?.status === 'FAILED' && job.failReason && (
                 <p className="mb-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-                  Not completed: {job.failReason}. Book a new visit below.
+                  Not completed: {job.failReason}. Neon Adda will book a new visit.
                 </p>
               )}
-              {canSchedule ? (
-                order.technicians.length ? (
-                  <InstallationForm orderNo={order.orderNo} job={job} technicians={order.technicians} />
-                ) : (
-                  <p className="text-sm text-gray-500">
-                    Add a technician under{' '}
-                    <Link href="/technicians" className="font-medium text-brand">
-                      Technicians
-                    </Link>{' '}
-                    to book this visit.
-                  </p>
-                )
-              ) : (
-                !job?.completedAt && (
-                  <p className="text-sm text-gray-500">
-                    {job && ['ON_THE_WAY', 'REACHED', 'WORK_STARTED'].includes(job.status)
-                      ? `${job.technician ?? 'The technician'} is on this visit now.`
-                      : 'Nothing to schedule for this order now.'}
-                  </p>
-                )
+              {!job?.completedAt && (
+                <p className="text-sm text-gray-500">
+                  {job && ['ON_THE_WAY', 'REACHED', 'WORK_STARTED'].includes(job.status)
+                    ? `${job.technician ?? 'The technician'} is on this visit now.`
+                    : job?.scheduledStart
+                      ? `Booked for ${formatDateTime(job.scheduledStart)}${job.technician ? ` with ${job.technician}` : ''}.`
+                      : 'Neon Adda books the visit and assigns a technician; it will show here.'}
+                </p>
               )}
               {job && job.photos.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">

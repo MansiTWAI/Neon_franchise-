@@ -1,7 +1,7 @@
 import {
   ClipboardList,
   Hammer,
-  HardHat,
+  FileCheck2,
   Inbox,
   LayoutDashboard,
   QrCode,
@@ -34,13 +34,7 @@ export const SECTIONS: Section[] = [
     slug: 'installations',
     label: 'Installations',
     icon: Hammer,
-    summary: 'Visits to schedule, under way and finished, with the technician’s photos.',
-  },
-  {
-    slug: 'technicians',
-    label: 'Technicians',
-    icon: HardHat,
-    summary: 'The installers who work for you. They sign in to the technician app with their mobile number.',
+    summary: 'Installation visits for your orders, booked by Neon Adda, with the technician’s photos.',
   },
   {
     slug: 'leads',
@@ -53,6 +47,12 @@ export const SECTIONS: Section[] = [
     label: 'Commission',
     icon: Wallet,
     summary: 'Your rates, commission earned on each order and every payout.',
+  },
+  {
+    slug: 'claims',
+    label: 'Claims',
+    icon: FileCheck2,
+    summary: 'Claim eligible commission with proof of payment, and follow it until it is paid.',
   },
   {
     slug: 'standee',

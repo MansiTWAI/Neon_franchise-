@@ -1,5 +1,5 @@
 import { formatINR } from '@neon-adda/shared';
-import { Banknote, CalendarClock, ClipboardList, Hammer, Inbox, MapPin, Users } from 'lucide-react';
+import { Banknote, CalendarClock, ClipboardList, Hammer, Inbox, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { PageHeader } from '@/components/page-header';
 import { Badge, Card } from '@/components/ui/display';
@@ -12,7 +12,6 @@ interface PartnerProfile {
   city: string;
   tier: string | null;
   pincodes: number;
-  technicians: number;
 }
 
 interface Overview {
@@ -20,7 +19,13 @@ interface Overview {
   toSchedule: number;
   newLeads: number;
   cashToCollect: { orders: number; amountPaise: number };
-  commission: { pendingPaise: number; duePaise: number; paidPaise: number };
+  commission: {
+    pendingPaise: number;
+    claimablePaise: number;
+    claimedPaise: number;
+    duePaise: number;
+    paidPaise: number;
+  };
   visitsToday: {
     id: string;
     status: string;
@@ -39,7 +44,7 @@ export default async function OverviewPage() {
 
   const tiles = [
     { icon: ClipboardList, label: 'Open orders', value: overview.openOrders, href: '/orders' },
-    { icon: CalendarClock, label: 'Visits to schedule', value: overview.toSchedule, href: '/installations' },
+    { icon: CalendarClock, label: 'Visits being booked', value: overview.toSchedule, href: '/installations' },
     { icon: Inbox, label: 'New leads', value: overview.newLeads, href: '/leads?status=NEW' },
     {
       icon: Banknote,
@@ -123,7 +128,8 @@ export default async function OverviewPage() {
           <dl className="space-y-2 text-sm">
             {[
               ['Pending, orders in progress', overview.commission.pendingPaise],
-              ['Due to you', overview.commission.duePaise],
+              ['Ready to claim', overview.commission.claimablePaise],
+              ['Claimed, with accounts', overview.commission.claimedPaise],
               ['Paid so far', overview.commission.paidPaise],
             ].map(([label, amount]) => (
               <div key={label} className="flex justify-between">
@@ -135,9 +141,6 @@ export default async function OverviewPage() {
           <div className="mt-4 flex gap-4 border-t border-gray-100 pt-4 text-sm text-gray-500">
             <span className="flex items-center gap-1.5">
               <MapPin className="size-4" /> {partner.pincodes} pincodes
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Users className="size-4" /> {partner.technicians} technicians
             </span>
           </div>
         </Card>
